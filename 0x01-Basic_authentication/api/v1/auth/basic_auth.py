@@ -1,4 +1,4 @@
-# api/v1/auth/basic_auth.py
+#!/usr/bin/env python3
 """
 Basic authentication module
 """
@@ -13,7 +13,10 @@ class BasicAuth(Auth):
     """
     Basic authentication class
     """
-    def extract_base64_authorization_header(self, authorization_header: str) -> str:
+    def extract_base64_authorization_header(
+            self,
+            authorization_header: str
+    ) -> str:
         """
         Extract Base64 part from the Authorization header.
         """
@@ -23,7 +26,10 @@ class BasicAuth(Auth):
             return None
         return authorization_header[len("Basic "):]
 
-    def decode_base64_authorization_header(self, base64_authorization_header: str) -> str:
+    def decode_base64_authorization_header(
+            self,
+            base64_authorization_header: str
+    ) -> str:
         """
         Decode the Base64 authorization header.
         """
@@ -35,7 +41,10 @@ class BasicAuth(Auth):
         except Exception:
             return None
 
-    def extract_user_credentials(self, decoded_base64_authorization_header: str) -> (str, str):
+    def extract_user_credentials(
+            self,
+            decoded_base64_authorization_header: str
+    ) -> (str, str):
         """
         Extract user email and password from the decoded Base64 string.
         """
@@ -43,8 +52,8 @@ class BasicAuth(Auth):
             return None, None
         if ':' not in decoded_base64_authorization_header:
             return None, None
-        user_email, password = decoded_base64_authorization_header.split(':', 1)
-        return user_email, password
+        email, password = decoded_base64_authorization_header.split(':', 1)
+        return email, password
 
     def user_object_from_credentials(
             self,
