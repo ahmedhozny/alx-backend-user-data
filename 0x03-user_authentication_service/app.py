@@ -18,7 +18,7 @@ def index() -> str:
     return jsonify({"message": "Bienvenue"})
 
 
-@app.route("/users", methods=["POST"])
+@app.route("/users", methods=["POST"], strict_slashes=False)
 def users() -> str:
     """
     Registers new user.
@@ -78,10 +78,8 @@ def get_reset_password_token() -> str:
     email = request.form.get("email")
     try:
         reset_token = AUTH.get_reset_password_token(email)
-        if reset_token is None:
-            abort(403)
     except ValueError:
-        reset_token = None
+        abort(403)
     return jsonify({"email": email, "reset_token": reset_token})
 
 
