@@ -32,7 +32,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: bytes) -> User:
+    def add_user(self, email: str, hashed_password: str) -> User:
         """Adds a new user.
         """
         try:
@@ -44,7 +44,7 @@ class DB:
             new_user = None
         return new_user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs) -> User:
         """Finds a user using filters.
         """
         fields, values = [], []
@@ -57,7 +57,7 @@ class DB:
         result = self._session.query(User).filter(
             tuple_(*fields).in_([tuple(values)])
         ).first()
-        if not result:
+        if result is None:
             raise NoResultFound()
         return result
 
