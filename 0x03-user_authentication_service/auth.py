@@ -6,7 +6,7 @@ from typing import Union
 from uuid import uuid4
 
 import bcrypt
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy.orm.exc import NoResultFound
 
 from db import DB
 from user import User
@@ -48,7 +48,7 @@ class Auth:
         try:
             user = self._db.find_user_by(email=email)
             return bcrypt.checkpw(
-                password.encode('utf-8'), user.password.encode('utf-8')
+                password.encode('utf-8'), user.hashed_password
             )
         except NoResultFound:
             return False
